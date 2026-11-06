@@ -1,0 +1,16 @@
+name: Clone Releases # 工作流的名称
+on:
+  workflow_dispatch: # 允许你在网页上手动触发
+  schedule:
+    - cron: '26 16 * * *' # 每天北京时间 0:26 自动检查并搬运
+
+jobs:
+  clone:
+    runs-on: ubuntu-latest # 使用云端服务器
+    steps:
+      - name: Clone Releases 
+        uses: andrewthetechie/gha-clone-releases@v1 # 使用搬运工具
+        with:
+          token: ${{ secrets.GH_TOKEN }} # 读取你的机密令牌
+          src_repo: kingcharleslzy-ai/dsh-purge # 目标上游仓库
+          copy_assets: true # 连同附件一起搬运过来
