@@ -1,16 +1,35 @@
-name: Clone Releases # 工作流的名称
+name: 终极全自动同步 (代码+Releases)
+
 on:
-  workflow_dispatch: # 允许你在网页上手动触发
+  workflow_dispatch: 
   schedule:
-    - cron: '26 16 * * *' # 每天北京时间 0:26 自动检查并搬运
+    - cron: '20 16 * * *' 
 
 jobs:
-  clone:
-    runs-on: ubuntu-latest # 使用云端服务器
+  sync:
+    runs-on: ubuntu-latest
     steps:
-      - name: Clone Releases 
-        uses: andrewthetechie/gha-clone-releases@v1 # 使用搬运工具
+      # 1. 必须第一步做：先把你仓库的代码拉取到云端
+      - name: 检出仓库代码
+        uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GH_TOKEN }} # 读取你的机密令牌
-          src_repo: kingcharleslzy-ai/dsh-purge # 目标上游仓库
-          copy_assets: true # 连同附件一起搬运过来
+          fetch-depth: 0
+          token: ${{ secrets.GH_TOKEN }}
+
+      # 2. 同步原作者的代码
+      - name: 同步上游代码
+        uses: aormsby/Fork-Sync-With-Upstream-action@v3.4
+        with:
+          upstream_sync_repo: kingcharleslzy-ai/dsh-purge 
+          upstream_sync_branch: master
+          target_sync_branch: master
+          target_repo_token: ${{ secrets.GH_TOKEN }}
+          upstream_pull_args: '--allow-unrelated-histories' 
+
+      # 3. 搬运 Releases
+      - name: 搬运 Releases
+        uses: andrewthetechie/gha-clone-releases@v1
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          src_repo: kingcharleslzy-ai/dsh-purge 
+          copy_assets: true
