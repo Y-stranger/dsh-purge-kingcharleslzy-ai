@@ -268,6 +268,7 @@ npm run smoke            # 发行包冒烟
   </tr>
   <tr>
     <td align="center" width="120"><a href="https://github.com/Tofu707"><img src="https://avatars.githubusercontent.com/u/178003727?s=112" width="56" height="56" alt="Tofu707" /><br /><sub>Tofu707</sub></a></td>
+    <td align="center" width="120"><a href="https://github.com/Y-stranger"><img src="https://avatars.githubusercontent.com/u/138533984?s=112" width="56" height="56" alt="Y-stranger" /><br /><sub>Y-stranger</sub></a></td>
   </tr>
 </table>
 <!-- CONTRIBUTORS:END -->
